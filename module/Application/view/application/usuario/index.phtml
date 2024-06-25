@@ -1,0 +1,35 @@
+<br>
+<h2><center>Usuários</center></h2>
+<hr>
+
+<div class="pt-5 col-12">
+   
+<table class="table">
+   <thead>
+   <tr>
+      <th>Nome</th>
+      <th scope="col" class="text-center">E-mail</th>
+      <th scope="col" class="text-center">Tipo</th>
+      <th scope="col" class="text-center"></th>
+   </tr>
+   </thead>
+   <tbody>
+   <?php foreach ($usuarios as $usuario): ?>
+      <tr>
+         <td> <?= $this->escapeHtml($usuario->getNome()); ?> </td>
+         <td class="text-center"> <?= $this->escapeHtml($usuario->getEmail()); ?> </td>
+         <td class="text-center"> <?= $usuario->getTipo() == 'comum' ? 'Comum' : 'Admin'; ?> </td>
+         <td class="text-center">
+            <a href="<?= $this->url('admin/usuario', ['action' => 'edit', 'id' => $usuario->getId()]) ?>">Editar</a>
+             | 
+             <a href="<?= $this->url('admin/usuario', ['action' => 'delete', 'id' => $usuario->getId()]) ?>">Apagar</a>
+         </td>
+      <?php endforeach; ?>
+      </tr>
+      </tbody>
+</table>
+<br>
+
+<a class="btn btn-dark" href="<?=$this->url('admin/usuario', ['action' => 'insert']); ?>" role="button">Adicionar Usuário</a>
+
+</div>

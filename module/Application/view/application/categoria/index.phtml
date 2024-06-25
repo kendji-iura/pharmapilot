@@ -1,0 +1,31 @@
+<br>
+<h2><center>Categorias</center></h2>
+<hr>
+
+<div class="pt-5 col-12">
+   
+<table class="table">
+   <thead>
+   <tr>
+      <th>Nome</th>
+      <th scope="col" class="text-center"></th>
+   </tr>
+   </thead>
+   <tbody>
+   <?php foreach ($categorias as $categoria): ?>
+      <tr>
+         <td> <?= $this->escapeHtml($categoria->getNome()); ?> </td>
+         <td class="text-center">            
+            <a href="<?= $this->url('categoria', ['action' => 'edit', 'id' => $categoria->getId()]) ?>">Editar</a>
+             | 
+             <a href="<?= $this->url('categoria', ['action' => 'delete', 'id' => $categoria->getId()]) ?>">Apagar</a>  
+         </td>
+      <?php endforeach; ?>
+      </tr>
+      </tbody>
+</table>
+<br>
+
+<a class="btn btn-dark" href="<?=$this->url('categoria', ['action' => 'insert']); ?>" role="button">Adicionar Categoria</a>
+
+</div>

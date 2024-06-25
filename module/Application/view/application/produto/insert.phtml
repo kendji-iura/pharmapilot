@@ -1,0 +1,99 @@
+<br>
+<h1><center>Novo Produto</center></h1>
+<hr>
+
+<div class="pt-5 col-12">
+   
+<hr>
+    <form action="<?=$produto->id?>" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" name="ativo" value="1">
+                    
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="nome"
+                    id="nome"
+                    aria-describedby="Nome"
+                    placeholder="Nome"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="cod_barras" class="form-label">Nº Código de Barras</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="cod_barras"
+                    id="cod_barras"
+                    aria-describedby="Cód Barras"
+                    placeholder="Nº Código de Barras"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="categoria" class="form-label">Categoria</label>
+                <select
+                    class="form-select form-select-md"
+                    name="categoria"
+                    id="categoria"
+                >
+                <?php foreach ($categorias as $categoria): ?>
+                    <option value=<?=$categoria->getId()?>><?=$categoria->getNome()?></option>
+                <?php endforeach; ?>
+                </select>
+            </div>  
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="valor" class="form-label">Valor</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="valor"
+                        id="valor"
+                        min="0.01"
+                        step="any"
+                        aria-describedby="Valor"
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="margem" class="form-label">Margem</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="margem"
+                        id="margem"
+                        min="0.01"
+                        step="any"
+                        aria-describedby="Margem"
+                    />
+                </div>
+            </div>                    
+            <div class="mb-3">
+                <label for="imagem" class="form-label">Abrir Imagem</label>
+                <input
+                    type="file"
+                    class="form-control"
+                    name="imagem"
+                    id="imagem"
+                    placeholder="Imagem"
+                    aria-describedby="fileHelpId"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea class="form-control" name="descricao" id="descricao" rows="3"></textarea>
+            </div>
+            
+            <div class="row">
+                <button type="submit" class="col-1 offset-10 btn btn-dark">
+                    Adicionar produto
+                </button>
+            </div>
+            
+            
+    </form>
+
+</div>
+
+

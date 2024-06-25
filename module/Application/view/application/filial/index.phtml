@@ -1,0 +1,35 @@
+<br>
+<h2><center>Filiais</center></h2>
+<hr>
+
+<div class="pt-5 col-12">
+   
+<table class="table">
+   <thead>
+   <tr>
+      <th>Nome</th>
+      <th scope="col" class="text-center">E-mail</th>
+      <th scope="col" class="text-center">Tipo</th>
+      <th scope="col" class="text-center"></th>
+   </tr>
+   </thead>
+   <tbody>
+   <?php foreach ($filiais as $filial): ?>
+      <tr>
+         <td> <?= $this->escapeHtml($filial->getNome()); ?> </td>
+         <td class="text-center"> <?= $this->escapeHtml($filial->getEmail()); ?> </td>
+         <td class="text-center"> <?= $filial->getTipo == 'filial' ? 'Filial' : 'Matriz'; ?> </td>
+         <td class="text-center">
+            <a href="<?= $this->url('filial', ['action' => 'edit', 'id' => $filial->getId()]) ?>">Editar</a>
+             | 
+             <a href="<?= $this->url('filial', ['action' => 'delete', 'id' => $filial->getId()]) ?>">Apagar</a>  
+         </td>
+      <?php endforeach; ?>
+      </tr>
+      </tbody>
+</table>
+<br>
+
+<a class="btn btn-dark" href="<?=$this->url('filial', ['action' => 'insert']); ?>" role="button">Adicionar Filial</a>
+
+</div>

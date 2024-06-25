@@ -1,0 +1,54 @@
+<br>
+<h1><center>Novo Cliente</center></h1>
+<hr>
+
+<div class="pt-5 col-12">
+   
+<hr>
+    <form action="<?=$cliente->id ?>" method="post">
+
+            <input type="hidden" name="ativo" value="1">
+                    
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="nome"
+                    id="nome"
+                    aria-describedby="Nome"
+                    placeholder="Nome"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    id="email"
+                    aria-describedby="emailHelpId"
+                    placeholder="E-mail"
+                />
+            </div>            
+            <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="telefone"
+                    id="telefone"
+                    aria-describedby="Telefone"
+                    placeholder="Telefone"
+                />
+            </div>
+            <div class="row">
+                <button type="submit" class="col-1 offset-10 btn btn-dark">
+                    Adicionar Cliente
+                </button>
+            </div>
+            
+            
+    </form>
+
+</div>

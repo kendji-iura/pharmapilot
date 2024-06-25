@@ -1,0 +1,64 @@
+<div class="pt-5 col-12">
+   
+<div class="text-center">
+    <h3>Editar Filial: <strong> <?= $filial->getNome() ?> </strong></h3>
+</div><hr>
+    <form action="<?=$filial->getId() ?>" method="post">
+
+            <input type="hidden" name="id" value="<?= $filial->getId() ?>">
+            <input type="hidden" name="ativo" value="<?= $filial->getAtivo() ?>">
+                    
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="nome"
+                    id="nome"
+                    aria-describedby="Nome"
+                    value="<?= $filial->getNome() ?>"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    id="email"
+                    aria-describedby="emailHelpId"
+                    value="<?= $filial->getEmail() ?>"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo</label>
+                <select
+                    class="form-select form-select"
+                    name="tipo"
+                    id="tipo"
+                >
+                    <option value="filial" <?php $filial->getTipo()=="filial" ? "selected" : "" ?> >Filial</option>
+                    <option value="matriz" <?php $filial->getTipo()=="matriz" ? "selected" : "" ?> >Matriz</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="telefone"
+                    id="telefone"
+                    aria-describedby="Telefone"
+                    value="<?= $filial->getTelefone() ?>"
+                />
+            </div>
+            <div class="row">
+                <button type="submit" class="col-1 offset-10 btn btn-dark">
+                    Salvar Alterações
+                </button>
+            </div>
+            
+            
+    </form>
+
+</div>

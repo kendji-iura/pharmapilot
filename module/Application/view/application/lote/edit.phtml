@@ -1,0 +1,93 @@
+<div class="pt-5 col-12">
+   
+<div class="text-center">
+    <h3>Editar Lote: <strong> <?= $lote->getLote() ?> </strong></h3>
+</div><hr>
+    <form action="<?=$lote->getId ?>" method="post">
+
+    <input type="hidden" name="id" value=<?=$lote->getId()?>>
+
+    <div class="mb-3">
+                <label for="filial" class="form-label">Filial</label>
+                <select
+                    class="form-select form-select-md"
+                    name="filial"
+                    id="filial"
+                >
+                <?php foreach ($filiais as $filial): ?>
+                    <option value=<?=$filial->getId()?> <?php $lote->getFilial()->getId() == $filial->getId() ?? 'selected' ?> ><?=$filial->getNome()?></option>
+                <?php endforeach; ?>
+                </select>
+            </div>                     
+            <div class="mb-3">
+                <label for="produto_id" class="form-label">Produto</label>
+                <select
+                    class="form-select form-select-md"
+                    name="produto"
+                    id="produto"
+                >
+                <?php foreach ($produtos as $produto): ?>
+                    <option value=<?=$produto->getId()?> <?php $lote->getProduto()->getId() == $filial->getId() ?? 'selected' ?> ><?=$produto->getNome()?></option>
+                <?php endforeach; ?>
+                </select>
+            </div>  
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="entrada" class="form-label">Data de Entrada</label>
+                    <input
+                        type="date"
+                        class="form-control"
+                        name="entrada"
+                        id="entrada"
+                        aria-describedby="entrada"
+                        value="<?= $lote->getEntrada()->format('Y-m-d') ?>"
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="validade" class="form-label">Validade</label>
+                    <input
+                        type="date"
+                        class="form-control"
+                        name="validade"
+                        id="validade"
+                        aria-describedby="validade"
+                        value="<?= $lote->getValidade()->format('Y-m-d') ?>"
+                    />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="quantidade" class="form-label">Quantidade</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="quantidade"
+                        id="quantidade"
+                        aria-describedby="quantidade"
+                        value="<?= $lote->getQuantidade() ?>"
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="lote" class="form-label">Lote</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="lote"
+                        id="lote"
+                        aria-describedby="lote"
+                        placeholder="Lote"
+                        value="<?= $lote->getLote() ?>"
+                    />
+                </div>
+            </div> 
+            
+            <div class="row">
+                <button type="submit" class="col-1 offset-10 btn btn-dark">
+                    Salvar Alterações
+                </button>
+            </div>
+            
+            
+    </form>
+
+</div>

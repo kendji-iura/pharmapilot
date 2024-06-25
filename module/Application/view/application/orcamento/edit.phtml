@@ -1,0 +1,384 @@
+<br>
+<h1><center>Orçamento Nº <?=$orcamento->getId()?></center></h1>
+<hr>
+<div class="col-12 mx-3 pe-3">
+    <form id="formOrcamento" action="<?=$orcamento->getId() ?>" method="post">
+    
+            <input type="hidden" name="filial" value=<?=$orcamento->getFilial()->getId()?>>
+            <input type="hidden" name="status" value="1">
+            <input type="hidden" name="usuario" value="<?= $_SESSION['usuario']->getId(); ?>">
+
+            <div class="row">
+                <div class="mb-3">
+                    <label for="filial" class="form-label">Filial</label>
+                    <select
+                        class="form-select form-select-md"
+                        name="filial"
+                        id="filial"
+                        disabled
+                        readonly
+                    >
+                    <?php foreach ($filiais as $filial): ?>
+                        <option value=<?=$filial->getId()?> <?= $orcamento->getFilial()->getId() == $filial->getId() ? "selected" : "" ?>><?=$filial->getNome()?></option>
+                    <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="cliente" class="form-label">Cliente</label>
+                    <select
+                        class="form-select form-select-md"
+                        name="cliente"
+                        id="cliente"
+                    >
+                    <?php foreach ($clientes as $cliente): ?>
+                        <option value=<?=$cliente->getId()?> <?= $orcamento->getCliente()->getId() == $cliente->getId() ? "selected" : "" ?> ><?=$cliente->getNome()?></option>
+                    <?php endforeach; ?>
+                    </select>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="data" class="form-label">Data</label>
+                    <input
+                        type="date"
+                        class="form-control"
+                        name="data"
+                        id="data"
+                        aria-describedby="data"
+                        value=<?= $orcamento->getData()->format('Y-m-d') ?>
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="valor" class="form-label">Valor Parcial</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="valor"
+                        id="valor"
+                        min="0.0"
+                        step="any"
+                        aria-describedby="valor"
+                        value=<?= $orcamento->getValor() ?>
+                        disabled
+                        readonly
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="acrescimo" class="form-label">Acréscimo</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="acrescimo"
+                        id="acrescimo"
+                        min="0.0"
+                        step="any"
+                        aria-describedby="acrescimo"
+                        value=<?= $orcamento->getAcrescimo() ?>
+                        onChange="calculaValor()"
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="desconto" class="form-label">Desconto</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="desconto"
+                        id="desconto"
+                        min="0.0"
+                        step="any"
+                        aria-describedby="desconto"
+                        value=<?= $orcamento->getDesconto() ?>
+                        onChange="calculaValor()"
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="valorFinal" class="form-label">Valor Total</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="valorFinal"
+                        id="valorFinal"
+                        min="0.0"
+                        step="any"
+                        aria-describedby="desconto"
+                        disabled
+                        readonly
+                    />
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="observacao" class="form-label">Observação</label>
+                    <textarea
+                        class="form-control"
+                        name="observacao"
+                        id="observacao"
+                        rows="3"
+                        aria-describedby="Observação"><?= $orcamento->getObservacao() ?></textarea>
+                </div>
+                </div>
+            </div>     
+    </form>
+
+</div>
+<hr>
+
+<table id="tabelaPedido" class="table mx-5 pe-5">
+   <thead>
+   <tr>
+      <th style="width: 50%;">Item</th>
+      <th style="width: 20%;" scope="col" class="text-center">Quantidade</th>
+   </tr>
+   </thead>
+    <tbody>
+        <?php foreach ($orcamentoProdutos as $item): ?>
+        <tr>
+            <td><?= $item->getProduto()->getNome() ?></td>
+            <td><?= $item->getQuantidade() ?></td>
+        </tr>    
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<div class="pt-2 row">
+    <button type="button" class="col-1 offset-10 btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalProdutos">
+        Itens do Pedido
+    </button>   
+</div>
+
+<div class="modal fade" id="modalProdutos" tabindex="-1" aria-labelledby="itemOrcamentoModal" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+    <form id="formAdicionarProdutos" action="<?= $this->url('orcamento', ['action' => 'insertProdutos']) ?>" method="post">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="itemOrcamentoModal">Adicionar / Alterar Produtos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body border border-primary table-hover table-bordered">
+        <table id="tabelaLotes" class="table table-striped" style="width: 100%;">
+            <thead class="border border-secondary">
+                <tr>
+                    <th style="width: 40%;">Produto</th>
+                    <th scope="col" class="text-center" style="width: 10%;">Valor Unitário</th>
+                    <th scope="col" class="text-center" style="width: 10%;">Quantidade Disponível</th>
+                    <th scope="col" class="text-center" style="width: 20%;">Quantidade</th>
+                    <th scope="col" class="text-center" style="width: 20%;">Valor Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Atualizar Pedido</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+    var table = $('#tabelaLotes').DataTable({
+        serverSide: false,
+        ajax: {
+            url: "<?= $this->url('orcamento', ['action' => 'getLotes', 'id' => $orcamento->getId()]) ?>",
+            dataSrc: 'data'
+        },
+        paging: true,
+        searching: true,
+        ordering: true,
+        colReorder: true,
+        pagingType: 'full_numbers',
+        columnDefs: [
+        { className: "text-center", "targets": "_all" }
+        ],
+        columns: [
+            { data: 'produto' },
+            {
+                data: 'valor' ,
+                className: "valor",
+                render: function(data, type, row) {
+                    return (row.valor).toFixed(2);
+                }
+            },
+            { data: 'quantidadeDisp' },
+            { 
+                data: 'quantidade', 
+                className: "text-center",
+                render: function(data, type, row, meta) {
+                    return '<input type="number" class="form-control quantidade-input" value="' + data + '" data-row="' + meta.row + '">';
+                }
+            },
+            {
+                data: null,
+                className: "valor-total",
+                render: function(data, type, row) {
+                    return (row.quantidade * row.valor).toFixed(2);
+                }
+            },
+            {
+                data: 'produto_id',
+                visible: false
+            }
+        ],
+        language: {
+                paginate: {
+                        first: 'Primeira',
+                        previous: 'Anterior',
+                        next: 'Próxima',
+                        last: 'Última'
+                    },
+                search:         "<span class='px-2 py-1 text-sm text-gray-500 rounded table-auto dark:text-gray-400'>Localizar</span>",
+                processing:     "<span class='px-2 py-1 text-sm text-gray-500 rounded table-auto dark:text-gray-400'>Obtendo dados...</span>",
+                lengthMenu:     "<span class='px-2 py-1 text-sm text-gray-500 rounded table-auto dark:text-gray-400'>Mostrar  _MENU_  registros por página</span>",
+                info:           "<span class='px-2 py-1 text-sm text-gray-500 rounded table-auto dark:text-gray-400'>Mostrando de _START_ a _END_ de _TOTAL_ registros</span>",
+                infoEmpty:      "Nenhum registro localizado.",
+                infoPostFix:    "",
+                loadingRecords: "Carregando conteúdo...",
+                zeroRecords:    "Nenhum registro encontrado",
+                emptyTable:     "Registros indisponíveis",
+            },
+
+
+    });
+
+    var table = $('#tabelaPedido').DataTable({
+    serverSide: false,
+    data: <?= json_encode($orcamentoProdutos) ?>,
+    paging: true,
+    searching: true,
+    ordering: true,
+    colReorder: true,
+    pagingType: 'full_numbers',
+    columnDefs: [
+        { className: "text-center", "targets": "_all" }
+    ],
+    columns: [
+        { data: 'produto' },
+        {
+            data: 'valor',
+            className: "valor",
+            render: function(data, type, row) {
+                return (row.valor !== null && row.valor !== undefined) ? parseFloat(row.valor).toFixed(2) : '0.00';
+            }
+        },
+        { data: 'quantidadeDisp' },
+        {
+            data: 'quantidade',
+            className: "text-center",
+            render: function(data, type, row, meta) {
+                return '<input type="number" class="form-control quantidade-input" value="' + data + '" data-row="' + meta.row + '">';
+            }
+        },
+    ],
+    language: {
+        paginate: {
+            first: 'Primeira',
+            previous: 'Anterior',
+            next: 'Próxima',
+            last: 'Última'
+        },
+        search: "<span class='px-2 py-1 text-sm text-gray-500 rounded table-auto dark:text-gray-400'>Localizar</span>",
+        processing: "<span class='px-2 py-1 text-sm text-gray-500 rounded table-auto dark:text-gray-400'>Obtendo dados...</span>",
+        lengthMenu: "<span class='px-2 py-1 text-sm text-gray-500 rounded table-auto dark:text-gray-400'>Mostrar  _MENU_  registros por página</span>",
+        info: "<span class='px-2 py-1 text-sm text-gray-500 rounded table-auto dark:text-gray-400'>Mostrando de _START_ a _END_ de _TOTAL_ registros</span>",
+        infoEmpty: "Nenhum registro localizado.",
+        infoPostFix: "",
+        loadingRecords: "Carregando conteúdo...",
+        zeroRecords: "Nenhum registro encontrado",
+        emptyTable: "Registros indisponíveis",
+    }
+});
+
+
+
+    //Atualiza o valor total de acordo com a quantidade e trata erros básicos de input:
+    $('#tabelaLotes').on('input', '.quantidade-input', function() {
+        var rowIdx = $(this).data('row');
+        var quantidade = $(this).val();
+        var rowData = table.row(rowIdx).data();
+        rowData.quantidade = quantidade;
+        if (isNaN(quantidade)) {
+            quantidade = 0;
+            $(this).val() = 0;
+        }
+        if (quantidade < 0) {
+            quantidade = 0;
+            $(this).val(0);
+        }
+        if (rowData.quantidade > rowData.quantidadeDisp) {
+            quantidade = rowData.quantidadeDisp;
+        }
+
+        rowData.quantidade = quantidade
+
+        table.row(rowIdx).data(rowData).invalidate();
+
+        var valorTotal = (rowData.valor * quantidade).toFixed(2);
+        $(this).closest('tr').find('.valor-total').text(valorTotal);
+    });
+
+    $('#formAdicionarProdutos').on('submit', function(e) {
+        e.preventDefault();
+
+        var formData = {
+            orcamento: <?= $orcamento->getId() ?>,
+            produtos: table.rows().data().toArray(),
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function(response) {
+                console.log('Sucesso:', response);
+                $('#modalProdutos').modal('hide');
+                if (response.success) {
+                    // console.error('Sucesso:', response);
+                } else {
+                    console.error('Erro no servidor:', response.error);
+                }
+                var formulario = document.getElementById('formOrcamento');
+                    formulario.submit();
+            },
+            error: function(xhr, status, error) {
+                console.error('Erro:', error);
+            }
+        });
+    });
+});
+
+function calculaValor() {
+    var valor = parseFloat($('#valor').val());
+    var acrescimo = parseFloat($('#acrescimo').val());
+    var desconto = parseFloat($('#desconto').val());
+
+    if (isNaN(acrescimo)) {
+        acrescimo = 0;
+    }
+
+    if (isNaN(desconto)) {
+        desconto = 0;
+    }
+
+    var valorFinal = valor + acrescimo - desconto;
+
+    $('#valorFinal').val(valorFinal.toFixed(2));
+}
+</script>
+
+<?php if (isset($_GET['showModal']) && $_GET['showModal'] == 'true'): ?>
+<script>
+    $(document).ready(function() {
+        $('#modalProdutos').modal('show');
+    });
+</script>
+<?php endif; ?>

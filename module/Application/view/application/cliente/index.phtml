@@ -1,0 +1,33 @@
+<br>
+<h2><center>Clientes</center></h2>
+<hr>
+
+<div class="pt-5 col-12">
+   
+<table class="table">
+   <thead>
+   <tr>
+      <th>Nome</th>
+      <th scope="col" class="text-center">E-mail</th>
+      <th scope="col" class="text-center"></th>
+   </tr>
+   </thead>
+   <tbody>
+   <?php foreach ($clientes as $cliente): ?>
+      <tr>
+         <td> <?= $this->escapeHtml($cliente->getNome()); ?> </td>
+         <td class="text-center"> <?= $this->escapeHtml($cliente->getEmail()); ?> </td>
+         <td class="text-center">            
+            <a href="<?= $this->url('cliente', ['action' => 'edit', 'id' => $cliente->getId()]) ?>">Editar</a>
+             | 
+             <a href="<?= $this->url('cliente', ['action' => 'delete', 'id' => $cliente->getId()]) ?>">Apagar</a>  
+         </td>
+      <?php endforeach; ?>
+      </tr>
+      </tbody>
+</table>
+<br>
+
+<a class="btn btn-dark" href="<?=$this->url('cliente', ['action' => 'insert']); ?>" role="button">Adicionar Cliente</a>
+
+</div>

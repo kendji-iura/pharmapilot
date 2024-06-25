@@ -1,0 +1,121 @@
+<br>
+<h1><center>Novo Orçamento</center></h1>
+<hr>
+
+<div class="col-12 mx-3 pe-3">
+    <form action="<?=$orcamento->id ?>" method="post">
+
+            <input type="hidden" name="status" value="1">
+            <input type="hidden" name="usuario" value="<?= $_SESSION['usuario']->getId(); ?>">
+
+            <div class="row">
+                <div class="mb-3">
+                    <label for="filial" class="form-label">Filial</label>
+                    <select
+                        class="form-select form-select-md"
+                        name="filial"
+                        id="filial"
+                    >
+                    <?php foreach ($filiais as $filial): ?>
+                        <option value=<?=$filial->getId()?>><?=$filial->getNome()?></option>
+                    <?php endforeach; ?>
+                    </select>
+                </div>                     
+                <div class="mb-3">
+                    <label for="cliente" class="form-label">Cliente</label>
+                    <select
+                        class="form-select form-select-md"
+                        name="cliente"
+                        id="cliente"
+                    >
+                    <?php foreach ($clientes as $cliente): ?>
+                        <option value=<?=$cliente->getId()?>><?=$cliente->getNome()?></option>
+                    <?php endforeach; ?>
+                    </select>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="data" class="form-label">Data</label>
+                    <input
+                        type="date"
+                        class="form-control"
+                        name="data"
+                        id="data"
+                        aria-describedby="data"
+                        value=<?=date('Y-m-d')?>
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="valor" class="form-label">Valor</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="valor"
+                        id="valor"
+                        min="0.0"
+                        step="any"
+                        aria-describedby="valor"
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="acrescimo" class="form-label">Acréscimo</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="acrescimo"
+                        id="acrescimo"
+                        min="0.0"
+                        step="any"
+                        aria-describedby="acrescimo"
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="desconto" class="form-label">Desconto</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="desconto"
+                        id="desconto"
+                        min="0.0"
+                        step="any"
+                        aria-describedby="desconto"
+                    />
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="observacao" class="form-label">Observação</label>
+                    <textarea
+                        class="form-control"
+                        name="observacao"
+                        id="observacao"
+                        rows="3"
+                        aria-describedby="Observação">
+                    </textarea>
+                </div>
+                </div>
+            </div> 
+            <hr>
+            <table class="table mx-5 pe-5">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Item</th>
+                        <th style="width: 20%;" scope="col" class="text-center">Quantidade</th>
+                        <th style="width: 30%;" scope="col" class="text-center"></th>
+                    </tr>
+                </thead>
+            </table>
+   
+            <div class="pt-2 row">
+                <button type="submit" class="col-1 offset-10 btn btn-dark">
+                    Itens do Pedido
+                </button>
+            </div>
+            
+            
+    </form>
+
+</div>
+
+

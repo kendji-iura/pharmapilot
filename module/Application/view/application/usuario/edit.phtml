@@ -1,0 +1,54 @@
+<div class="pt-5 col-12">
+   
+<div class="text-center">
+    <h3>Editar Usuário: <strong> <?= $usuario->getNome() ?> </strong></h3>
+</div><hr>
+    <form action="<?=$usuario->getId() ?>" method="post">
+
+            <input type="hidden" name="id" value="<?= $usuario->getId() ?>">
+            <input type="hidden" name="ativo" value="<?= $usuario->getAtivo() ?>">
+                    
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="nome"
+                    id="nome"
+                    aria-describedby="Nome"
+                    value="<?= $usuario->getNome() ?>"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    id="email"
+                    aria-describedby="emailHelpId"
+                    value="<?= $usuario->getEmail() ?>"
+                />
+            </div>
+            <div class="mb-3">
+
+                <label for="tipo" class="form-label">Tipo de Acesso</label>
+                <select
+                    class="form-select form-select"
+                    name="tipo"
+                    id="tipo"
+                >
+                    <option value="comum" <?= $usuario->getTipo() == "comum" ? "selected" : "" ?>>Comum</option>
+                    <option value="admin" <?= $usuario->getTipo() == "admin" ? "selected" : "" ?>>Administrador</option>
+                </select>
+            </div>
+            <div class="row">
+                <button type="submit" class="col-1 offset-10 btn btn-dark">
+                    Salvar Alterações
+                </button>
+            </div>
+            
+            
+    </form>
+
+</div>

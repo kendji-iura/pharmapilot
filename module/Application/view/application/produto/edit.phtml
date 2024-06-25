@@ -1,0 +1,105 @@
+<div class="pt-5 col-12">
+   
+<div class="text-center">
+    <h3>Editar Produto: <strong> <?= $produto->getNome() ?> </strong></h3>
+</div><hr>
+    <form action="<?=$produto->getId() ?>" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" name="id" value="<?= $produto->getId() ?>">
+            <input type="hidden" name="ativo" value="<?= $produto->getAtivo() ?>">
+                    
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="nome"
+                    id="nome"
+                    aria-describedby="Nome"
+                    value="<?= $produto->getNome() ?>"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="cod_barras" class="form-label">Nº Código de Barras</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="cod_barras"
+                    id="cod_barras"
+                    aria-describedby="Cód Barras"
+                    value="<?= $produto->getCodBarras() ?>"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="categoria" class="form-label">Categoria</label>
+                <select
+                    class="form-select form-select-md"
+                    name="categoria"
+                    id="categoria"
+                >
+                <?php foreach ($categorias as $categoria): ?>
+                    <option value="<?=$categoria->getId()?>" <?= $categoria->getId() == $produto->getCategoria()->getId() ? "selected" : "" ?>>
+                        <?=$categoria->getNome()?>
+                    </option>
+                <?php endforeach; ?>
+                </select>
+            </div>       
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="valor" class="form-label">Valor</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="valor"
+                        id="valor"
+                        min="0.01"
+                        step="any"
+                        aria-describedby="Valor"
+                        value="<?= $produto->getValor() ?>"
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="margem" class="form-label">Margem</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="margem"
+                        id="margem"
+                        min="0.01"
+                        step="any"
+                        aria-describedby="Margem"
+                        value="<?= $produto->getMargem() ?>"
+                    />
+                </div>
+            </div>      
+            <div class="mb-3">
+            <img
+                src="<?=$this->basePath($produto->getImagem())?>"
+                class="rounded-top p-3"
+                alt=""
+                height="150vh"
+            />  
+                <input
+                    type="file"
+                    class="form-control"
+                    value="<?=$this->basePath($produto->getImagem())?>"
+                    name="imagem"
+                    id="imagem"
+                    placeholder="Imagem"
+                    aria-describedby="fileHelpId"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea class="form-control" name="descricao" id="descricao" rows="3"><?= $produto->getDescricao() ?></textarea>
+            </div>
+            <div class="row">
+                <button type="submit" class="col-1 offset-10 btn btn-dark">
+                    Salvar Alterações
+                </button>
+            </div>
+            
+            
+    </form>
+
+</div>

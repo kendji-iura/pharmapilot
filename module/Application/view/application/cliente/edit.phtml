@@ -1,0 +1,53 @@
+<div class="pt-5 col-12">
+   
+<div class="text-center">
+    <h3>Editar Cliente: <strong> <?= $cliente->getNome() ?> </strong></h3>
+</div><hr>
+    <form action="<?=$cliente->getId() ?>" method="post">
+
+            <input type="hidden" name="id" value="<?= $cliente->getId() ?>">
+            <input type="hidden" name="ativo" value="<?= $cliente->getAtivo() ?>">
+                    
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="nome"
+                    id="nome"
+                    aria-describedby="Nome"
+                    value="<?= $cliente->getNome() ?>"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    id="email"
+                    aria-describedby="emailHelpId"
+                    value="<?= $cliente->getEmail() ?>"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="telefone"
+                    id="telefone"
+                    aria-describedby="Telefone"
+                    value="<?= $cliente->getTelefone() ?>"
+                />
+            </div>
+            <div class="row">
+                <button type="submit" class="col-1 offset-10 btn btn-dark">
+                    Salvar Alterações
+                </button>
+            </div>
+            
+            
+    </form>
+
+</div>

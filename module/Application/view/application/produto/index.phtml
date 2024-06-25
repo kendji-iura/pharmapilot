@@ -1,0 +1,57 @@
+<br>
+<h2><center>Produtos</center></h2>
+<hr>
+
+<div class="pt-5 col-12">
+   
+   <div class="accordion accordion-flush" id="accordionFlush">
+      <?php foreach ($produtos as $produto): ?>
+         <tr>
+         <div class="accordion-item">
+            <h2 class="accordion-header text-center">              
+               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse.<?= $produto->getId(); ?>" aria-expanded="false" aria-controls="flush-collapseOne">
+                  <div class="row text-center col-12">
+                     <div class="col-6">
+                        <?= $this->escapeHtml($produto->getNome()); ?> 
+                     </div>
+                     <div class="col-6">
+                        <?= 'Categoria: '.$produto->getCategoria()->getNome(); ?> 
+                     </div>
+                  </div>
+               </button>
+            </h2>
+            <div id="flush-collapse.<?= $produto->getId(); ?>" class="accordion-collapse collapse" data-bs-parent="#accordionFlush">
+               <div class="accordion-body">
+                  <div class="row border-bottom">
+                     <div class="col-2"></div>
+                     <div class="col-8"><h6>Descrição</h6></div>
+                     <div class="col-1 text-center"><h6>Ações</h6></div>
+                  </div>
+                  <div class="row text-center">
+                  <div class="col-2 text-center">
+                     <img
+                           src="<?=$this->basePath($produto->getImagem())?>"
+                           class="rounded-top"
+                           alt=""
+                           height="150vh"
+                        />
+                  </div>
+                  <div class="col-8 text-start"><?= $produto->getDescricao() ?></div>
+                  <div class="col-1">
+                     <a href="<?= $this->url('produto', ['action' => 'edit', 'id' => $produto->getId()]) ?>">Editar</a>
+                  </div>
+                  <div class="col-1">
+                     <a href="<?= $this->url('produto', ['action' => 'delete', 'id' => $produto->getId()]) ?>">Apagar</a>  
+                  </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      <?php endforeach; ?>
+
+<br>
+
+<a class="btn btn-dark" href="<?=$this->url('produto', ['action' => 'insert']); ?>" role="button">Adicionar Produto</a>
+
+</div>
+
